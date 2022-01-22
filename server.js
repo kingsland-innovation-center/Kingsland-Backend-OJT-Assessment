@@ -10,10 +10,12 @@
  * You may also opt to eliminate the database entirely and use in-memory storage.
  */
 const express = require("express");
+const compression = require("compression");
 const student = require("./services/student");
 const user = require("./services/user");
 
 const app = express();
+app.use(compression());
 app.use(express.json());
 
 app.use("/student", student);
