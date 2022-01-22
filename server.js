@@ -14,6 +14,8 @@ const compression = require("compression");
 const student = require("./services/student");
 const user = require("./services/user");
 
+const port = process.env.PORT || 3100;
+
 const app = express();
 app.use(compression());
 app.use(express.json());
@@ -21,6 +23,6 @@ app.use(express.json());
 app.use("/student", student);
 app.use("/user", user);
 
-app.listen(3100, () => {
+app.listen(port, () => {
   console.log("Server is running on port 3100");
 });
