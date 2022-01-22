@@ -70,4 +70,28 @@ router.post("/login", async (request, response) => {
   //   });
 });
 
+// removes a user
+router.delete("/:id", async (request, response) => {
+  const { id } = request.params;
+  const {
+    rows: [user],
+  } = await pool.query(
+    "DELETE FROM users WHERE id = $1 RETURNING id, first_name, last_name, username",
+    [id]
+  );
+  response.json(user);
+});
+
+// update password
+router.patch("/update-password", async (request, response) => {
+  const { username, old_password, new_password } = request.body;
+  const {
+    rows: [user],
+  } = await pool.query(
+    "UPDATE users SET password = crypt($3, gen_salt('bf')) WHERE username = $1 AND password = crypt($2, password) RETURNING id, first_name, last_name, username",
+    [username, old_password, new_password]
+  );
+  response.json(user);
+});
+
 module.exports = router;
