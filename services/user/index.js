@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../../db");
+const { generateToken, verifyToken } = require("../../authentication");
 
 /**
  * Returns the user list.
@@ -68,7 +69,8 @@ router.post("/login", async (request, response) => {
       "SELECT id, first_name, last_name, username FROM users WHERE username = $1 AND password = crypt($2, password)",
       [username, password]
     );
-    response.json(user);
+    const jwtToken = generateToken({ id: user.id, username: user.username });
+    response.status(200).send({ ...user, jwtToken });
   } catch (error) {
     response.status(400).send({ error });
   }
