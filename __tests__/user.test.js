@@ -2,27 +2,15 @@ const request = require("supertest");
 const app = require("../server");
 
 describe("User Route", () => {
-  it("retrieve all users", async () => {
-    const res = await request(app)
-      .get("/user")
-      .set("Accept", "application/json")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
-
-    expect(res.statusCode).toEqual(200);
-  });
-  it("retrieve single user", async () => {
+  it("no user on requested id", async () => {
     const res = await request(app)
       .get("/user/1")
-      .set("Accept", "application/json")
       .set(
         "authorization",
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
       );
 
-    expect(res.statusCode).toEqual(200);
+    expect(res.statusCode).toEqual(404);
   });
   it("register user", async () => {
     const res = await request(app)
@@ -37,6 +25,17 @@ describe("User Route", () => {
 
     expect(res.statusCode).toEqual(200);
   });
+  it("register user bad request", async () => {
+    const res = await request(app)
+      .post("/user/register")
+      .send({
+        first_name: "Rave",
+        last_name: "Arevalo",
+      })
+      .set("Accept", "application/json");
+
+    expect(res.statusCode).toEqual(400);
+  });
   it("user login", async () => {
     const res = await request(app)
       .post("/user/login")
@@ -48,10 +47,19 @@ describe("User Route", () => {
 
     expect(res.statusCode).toEqual(200);
   });
-  it("delete account", async () => {
+  it("retrieve all users", async () => {
     const res = await request(app)
-      .delete("/user/1")
-      .set("Accept", "application/json")
+      .get("/user")
+      .set(
+        "authorization",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
+      );
+
+    expect(res.statusCode).toEqual(200);
+  });
+  it("retrieve single user", async () => {
+    const res = await request(app)
+      .get("/user/1")
       .set(
         "authorization",
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
@@ -61,13 +69,23 @@ describe("User Route", () => {
   });
   it("update password", async () => {
     const res = await request(app)
-      .patch("/student/1")
+      .patch("/user/1")
       .send({
         username: "Test",
         old_password: "Test",
         new_password: "Test123",
       })
       .set("Accept", "application/json")
+      .set(
+        "authorization",
+        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
+      );
+
+    expect(res.statusCode).toEqual(200);
+  });
+  it("delete account", async () => {
+    const res = await request(app)
+      .delete("/user/1")
       .set(
         "authorization",
         "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"

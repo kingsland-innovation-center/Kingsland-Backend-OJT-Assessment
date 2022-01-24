@@ -24,7 +24,7 @@ app.use("/student", student);
 app.use("/user", user);
 
 app.get("*", function (req, res) {
-  res.status(404).send("route not found");
+  res.status(404).send({ error: "route not found" });
 });
 
 if (process.env.NODE_ENV !== "test") {

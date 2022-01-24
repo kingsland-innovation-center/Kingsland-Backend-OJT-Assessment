@@ -3,9 +3,7 @@ const app = require("../server");
 
 describe("check verified routes", () => {
   it("no token provided", async () => {
-    const res = await request(app)
-      .get("/student")
-      .set("Accept", "application/json");
+    const res = await request(app).get("/student");
 
     expect(res.statusCode).toEqual(401);
   });

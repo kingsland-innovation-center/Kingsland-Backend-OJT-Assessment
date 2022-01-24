@@ -12,11 +12,11 @@ const verifyToken = (request, response, next) => {
   const token = authHeader?.split(" ")[1];
 
   if (!token) {
-    return response.status(401).send({ message: "No token provided" });
+    return response.status(401).send({ error: "No token provided" });
   } else {
     jwt.verify(token, process.env.JWT_SECRET, (err, res) => {
       if (err) {
-        return response.status(403).send({ message: err.message });
+        return response.status(403).send({ error: err.message });
       }
       next();
     });
