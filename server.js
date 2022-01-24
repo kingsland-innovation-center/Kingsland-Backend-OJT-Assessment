@@ -23,6 +23,14 @@ app.use(express.json());
 app.use("/student", student);
 app.use("/user", user);
 
-app.listen(port, () => {
-  console.log("Server is running on port 3100");
+app.get("*", function (req, res) {
+  res.status(404).send("route not found");
 });
+
+if (process.env.NODE_ENV !== "test") {
+  app.listen(port, () => {
+    console.log("Server is running on port 3100");
+  });
+}
+
+module.exports = app;
