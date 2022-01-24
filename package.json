@@ -4,16 +4,29 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "cross-env NODE_ENV=test jest",
+    "pretest": "cross-env NODE_ENV=test flyway -c flyway.conf.js clean && npm run migrate:test",
     "start": "node server.js",
-    "start:dev": "nodemon server.js"
+    "start:dev": "nodemon server.js",
+    "migrate": "flyway -c flyway.conf.js migrate",
+    "migrate:test": "cross-env NODE_ENV=test npm run migrate",
+    "build": "npm run migrate && npm run prune"
   },
   "author": "Kingsland Innovation Center",
   "license": "ISC",
   "dependencies": {
-    "express": "^4.17.1"
+    "compression": "^1.7.4",
+    "express": "^4.17.1",
+    "jsonwebtoken": "^8.5.1",
+    "node-flywaydb": "^3.0.7",
+    "pg": "^8.7.1",
+    "pg-connection-string": "^2.5.0"
   },
   "devDependencies": {
-    "nodemon": "^2.0.15"
+    "cross-env": "^7.0.3",
+    "dotenv": "^14.2.0",
+    "jest": "^27.4.7",
+    "nodemon": "^2.0.15",
+    "supertest": "^6.2.2"
   }
 }
