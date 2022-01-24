@@ -69,7 +69,7 @@ describe("User Route", () => {
   });
   it("update password", async () => {
     const res = await request(app)
-      .patch("/user/1")
+      .patch("/user/update-password")
       .send({
         username: "Test",
         old_password: "Test",
