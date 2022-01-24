@@ -1,14 +1,14 @@
 const request = require("supertest");
 const app = require("../server");
 
+const bearerToken =
+  "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU";
+
 describe("Student Route", () => {
   it("student does not exist", async () => {
     const res = await request(app)
       .get("/student/1")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(404);
   });
@@ -22,30 +22,21 @@ describe("Student Route", () => {
         course: "Software Engineering",
       })
       .set("Accept", "application/json")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(200);
   });
   it("retrieve single student", async () => {
     const res = await request(app)
       .get("/student/1")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(200);
   });
   it("retrieve all students", async () => {
     const res = await request(app)
       .get("/student")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(200);
   });
@@ -57,10 +48,7 @@ describe("Student Route", () => {
         course: "Software Engineering",
       })
       .set("Accept", "application/json")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(400);
   });
@@ -74,20 +62,14 @@ describe("Student Route", () => {
         course: "Project Management",
       })
       .set("Accept", "application/json")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(200);
   });
   it("delete a student", async () => {
     const res = await request(app)
       .delete("/student/1")
-      .set(
-        "authorization",
-        "Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6MTksInVzZXJuYW1lIjoiVGVzc2luZyIsImlhdCI6MTY0MjkyOTc5OSwiZXhwIjoxNjQzMTAyNTk5fQ.SwLcsceOf1C122hxmMC0FEIWonXHQFaZcff9fEl0UrU"
-      );
+      .set("authorization", bearerToken);
 
     expect(res.statusCode).toEqual(200);
   });
