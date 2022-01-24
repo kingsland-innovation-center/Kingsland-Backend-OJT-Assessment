@@ -7,9 +7,8 @@ const generateToken = (payload) => {
   });
 };
 
-const verifyToken = (request, response) => {
+const verifyToken = (request, response, next) => {
   const authHeader = request.headers["authorization"];
-  console.log(request.headers);
   const token = authHeader?.split(" ")[1];
 
   if (!token) {
@@ -19,8 +18,7 @@ const verifyToken = (request, response) => {
       if (err) {
         return response.status(403).send({ message: err.message });
       }
-      console.log(res);
-      return { id: res.id, username: res.username };
+      next();
     });
   }
 };

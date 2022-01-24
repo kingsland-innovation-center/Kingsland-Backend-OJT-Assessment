@@ -10,7 +10,7 @@ const { generateToken, verifyToken } = require("../../authentication");
  *
  * If :id is given, the user with the given id will be returned.
  */
-router.get("/", async (request, response) => {
+router.get("/", verifyToken, async (request, response) => {
   try {
     const { rows: users } = await pool.query(
       "SELECT id, first_name, last_name, username FROM users"
@@ -24,7 +24,7 @@ router.get("/", async (request, response) => {
 /**
  * Returns the user with the given id.
  */
-router.get("/:id", async (request, response) => {
+router.get("/:id", verifyToken, async (request, response) => {
   try {
     const { id } = request.params;
     const {
@@ -77,7 +77,7 @@ router.post("/login", async (request, response) => {
 });
 
 // removes a user
-router.delete("/:id", async (request, response) => {
+router.delete("/:id", verifyToken, async (request, response) => {
   try {
     const { id } = request.params;
     const {
@@ -93,7 +93,7 @@ router.delete("/:id", async (request, response) => {
 });
 
 // update password
-router.patch("/update-password", async (request, response) => {
+router.patch("/update-password", verifyToken, async (request, response) => {
   try {
     const { username, old_password, new_password } = request.body;
     const {

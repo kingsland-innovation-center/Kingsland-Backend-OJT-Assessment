@@ -1,10 +1,12 @@
 const express = require("express");
 const router = express.Router();
 const pool = require("../../db");
+const { generateToken, verifyToken } = require("../../authentication");
+
 /**
  * Returns all students in the database.
  */
-router.get("/", async (request, response) => {
+router.get("/", verifyToken, async (request, response) => {
   try {
     const { rows: students } = await pool.query("SELECT * FROM students");
     response.status(200).json(students);
@@ -16,7 +18,7 @@ router.get("/", async (request, response) => {
 /**
  * Returns a single student in the database.
  */
-router.get("/:id", async (request, response) => {
+router.get("/:id", verifyToken, async (request, response) => {
   try {
     const { id } = request.params;
     const {
@@ -31,7 +33,7 @@ router.get("/:id", async (request, response) => {
 /**
  * Creates a student in the database and returns the created student object.
  */
-router.post("/", async (request, response) => {
+router.post("/", verifyToken, async (request, response) => {
   try {
     const { first_name, last_name, email, course } = request.body;
     const {
@@ -49,7 +51,7 @@ router.post("/", async (request, response) => {
 /**
  * Deletes a student from the database and returns the deleted student object.
  */
-router.delete("/:id", async (request, response) => {
+router.delete("/:id", verifyToken, async (request, response) => {
   try {
     const { id } = request.params;
     const {
@@ -66,7 +68,7 @@ router.delete("/:id", async (request, response) => {
 /**
  * Modifies a student in the database and returns the modified student object.
  */
-router.patch("/:id", async (request, response) => {
+router.patch("/:id", verifyToken, async (request, response) => {
   try {
     const { id } = request.params;
     const { first_name, last_name, email, course } = request.body;
